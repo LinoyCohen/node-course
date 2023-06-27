@@ -1,13 +1,13 @@
 {
     "github": {
-        "clientId": "123",
-        "secret": "123456789"
+        "clientId": "a7985076d954ad167d10",
+        "secret": "64cad1dc09ba783abdce0a291658737778c4f7dd"
     }, 
     "mysql": {
-        "host": "123",
-        "user": "itay",
-        "password": "321321",
-        "database": "database",
+        "host": "localhost",
+        "user": "username",
+        "password": "password",
+        "database": "mydb",
         "port": "500"
     }, 
     "mongo": {

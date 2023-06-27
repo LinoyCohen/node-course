@@ -5,16 +5,14 @@ const host = "localhost";
 const usersRouter = require("./routes/users");
 const guestsRouter = require("./routes/guests");
 const githubRouter = require("./routes/github");
-// const config = require("config");
 
-const notFound = require("./middlewears/notFound");
-const error = require("./middlewears/error");
+const notFound = require("./middlewares/notFound");
+const error = require("./middlewares/error");
+const sqlConnection = require("./middlewares/sqlConnection");
 
-// app.use("")
-
-// const port = config.get('mysql.port');
 
 app.use(express.urlencoded({extended: false}));
+app.use(sqlConnection);
 
 app.use("/", usersRouter);
 app.use("/", guestsRouter);

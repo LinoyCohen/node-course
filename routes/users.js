@@ -1,14 +1,13 @@
 const express = require("express");
 const usersRouter = express.Router();
-const validator = require("../middlewears/validator");
+const validator = require("../middlewares/validator");
 const { symbolValidator } = require("../controllers/usersController/usersValidators")
+const { addSymbol } = require("../controllers/usersController/users");
 
 usersRouter.get("/dashboard");
 
 usersRouter.get("/logout");
 
-usersRouter.post("/symbol", validator(symbolValidator), async (req, res, next) => {
-    res.send("something");
-});
+usersRouter.post("/symbol", validator(symbolValidator), addSymbol);
 
 module.exports = usersRouter;
