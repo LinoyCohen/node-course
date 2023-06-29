@@ -15,9 +15,11 @@ const pool = mysql.createPool({
 
 pool.query = util.promisify(pool.query);
 
-const db = (req, res, next) => {
+const middleware = (req, res, next) => {
     req.db = pool;
     next();
 }
 
-module.exports = db;
+module.exports = {
+    pool, middleware
+};

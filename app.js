@@ -2,17 +2,36 @@ const express = require("express");
 const app = express();
 const port = 3000;
 const host = "localhost";
+const path = require('path');
 const usersRouter = require("./routes/users");
 const guestsRouter = require("./routes/guests");
 const githubRouter = require("./routes/github");
+const auth = require('./middlewares/auth');
+const session = require('express-session');
+const config = require("config");
 
 const notFound = require("./middlewares/notFound");
 const error = require("./middlewares/error");
-const sqlConnection = require("./middlewares/sqlConnection");
+const {middleware: sqlConnection} = require("./middlewares/sqlConnection");
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.use(express.urlencoded({extended: false}));
 app.use(sqlConnection);
+
+app.use(session({
+    // store: sessionStore,
+    secret: 'secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 365 * 5,
+    },
+  }));
+
+app.use(auth.initialize());
+app.use(auth.session());
 
 app.use("/", usersRouter);
 app.use("/", guestsRouter);
