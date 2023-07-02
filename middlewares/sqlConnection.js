@@ -14,11 +14,12 @@ const pool = mysql.createPool({
 });
 
 pool.query = util.promisify(pool.query);
+pool.execute = util.promisify(pool.execute);
 
 const middleware = (req, res, next) => {
     req.db = pool;
     next();
-}
+};
 
 module.exports = {
     pool, middleware

@@ -1,7 +1,7 @@
+const Symbol  = require("../../models/symbol-value");
 const UserSymbol = require("../../models/userSymbolModel");
-const Symbol = require("../../models/symbol-value");
 
-const addSymbol = async (req, res, next) => {
+exports.addSymbol = async (req, res, next) => {
     try {
         const userSymbol = new UserSymbol(req.db);
         await userSymbol.add({
@@ -14,26 +14,22 @@ const addSymbol = async (req, res, next) => {
     }
 }
 
-const dashboard = async (req, res, next) => {
+exports.dashboard = async (req, res, next) => {
     try {
         const userSymbol = new UserSymbol(req.db);
         const userSymbols = await userSymbol.findByUserId({
-            userId: 111
+            userId: 1
         });
-        console.log(userSymbols);
 
+        console.log(userSymbols);
         const promises = [];
         userSymbols.forEach((userSymbol) => promises.push(Symbol.findOne({symbol: userSymbol.symbol}).sort({createdAt : -1}).limit(1)))
-        const Symbols = await Promise.all(promises);
-
-        res.render('/dashboard', {
+        const symbols = await Promise.all(promises);
+        res.render('users/dashboard', {
             userSymbols,
-            Symbols,
+            symbols,
         })
     } catch (err) {
         next(err);
     }
 }
-
-
-module.exports = {addSymbol, dashboard};

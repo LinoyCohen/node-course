@@ -9,6 +9,7 @@ const githubRouter = require("./routes/github");
 const auth = require('./middlewares/auth');
 const session = require('express-session');
 const config = require("config");
+const mongoose = require("mongoose");
 
 const notFound = require("./middlewares/notFound");
 const error = require("./middlewares/error");
@@ -17,8 +18,12 @@ const {middleware: sqlConnection} = require("./middlewares/sqlConnection");
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(sqlConnection);
+
+const uri = "mongodb://127.0.0.1:27017/mymongo?retryWrites=true&w=majority";
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(session({
     // store: sessionStore,
